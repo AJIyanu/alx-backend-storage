@@ -1,9 +1,9 @@
 -- ensuring comment on all lines
 -- to be ddited later
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS users1 (
 	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(255) NOT NULL UNIQUE,
 	name VARCHAR(255),
-	country NOT NULL ENUM('US', 'CO', 'TN') SET DEFAULT 'US'
+	country ENUM('US', 'CO', 'TN') NOT NULL DEFAULT 'US'
 	);
