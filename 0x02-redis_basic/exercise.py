@@ -7,7 +7,7 @@ Learn how to use redis as a simple cache
 import redis
 import uuid
 # import json
-from typing import Union
+from typing import Union, Callable, Any
 
 
 class Cache:
@@ -28,3 +28,25 @@ class Cache:
         self._redis.mset(new_insert)
         return key
 
+    def get(self, key: str, fn: Callable[[Any], Any]=None)-> Any:
+        """gets data stored by key and returns the data"""
+        data = self._redis.get(key)
+        if data is None:
+            return None
+        if fn is None:
+            return data
+        return fn(data)
+
+    def get_str(self, key: str)-> str:
+        """returns a stringed get"""
+        data = self._redis.get(key)
+        if data is None:
+            return None
+        return str(data)
+
+    def get_int(self, key: str)-> int:
+        """returns int value"""
+        data = self._redis.get(key)
+        if data is None:
+            return None
+        return int(data)
