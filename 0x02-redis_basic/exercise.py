@@ -6,7 +6,7 @@ Learn how to use redis as a simple cache
 
 import redis
 import uuid
-import json
+# import json
 from typing import Union
 
 
@@ -24,7 +24,7 @@ class Cache:
     def store(self, data: Union[str, bytes, int, float])-> str:
         """stores a data to redis and returns the key"""
         key = str(uuid.uuid4())
-        new_insert = json.dumps({key: data})
+        new_insert = {key: data}
         self._redis.mset(new_insert)
         return key
 
