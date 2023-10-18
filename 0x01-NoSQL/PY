@@ -1,0 +1,27 @@
+4-match:4:21: E231 missing whitespace after ':'
+6-update:6:4: E201 whitespace after '{'
+6-update:6:42: E202 whitespace before '}'
+8-all.py:10:39: W291 trailing whitespace
+9-insert_school.py:6:1: E303 too many blank lines (3)
+9-insert_school.py:8:60: W291 trailing whitespace
+README.md:3:1: E266 too many leading '#' for block comment
+README.md:5:1: E266 too many leading '#' for block comment
+README.md:7:36: E231 missing whitespace after ':'
+README.md:7:80: E501 line too long (89 > 79 characters)
+README.md:8:26: E231 missing whitespace after ':'
+README.md:9:68: E231 missing whitespace after ':'
+README.md:9:80: E501 line too long (121 > 79 characters)
+README.md:10:22: E203 whitespace before ':'
+README.md:10:61: E231 missing whitespace after ':'
+README.md:10:80: E501 line too long (114 > 79 characters)
+README.md:11:22: E231 missing whitespace after ':'
+README.md:12:45: E231 missing whitespace after ':'
+README.md:12:80: E501 line too long (98 > 79 characters)
+README.md:13:30: E231 missing whitespace after ':'
+README.md:13:80: E501 line too long (83 > 79 characters)
+README.md:14:26: E231 missing whitespace after ':'
+README.md:15:1: E266 too many leading '#' for block comment
+README.md:17:1: E266 too many leading '#' for block comment
+README.md:28:1: E266 too many leading '#' for block comment
+README.md:33:80: E501 line too long (81 > 79 characters)
+README.md:43:80: E501 line too long (86 > 79 characters)
