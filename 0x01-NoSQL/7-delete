@@ -1,1 +1,3 @@
-// my comment
+// delete document with specific attribut
+
+db.school.deleteOne({name: "Holberton school"})
