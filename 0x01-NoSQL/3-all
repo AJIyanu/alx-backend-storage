@@ -1,1 +1,3 @@
-// my comment
+// retrieve all documents
+
+db.school.find()
