@@ -11,13 +11,13 @@ from functools import wraps
 from typing import Union, Callable, Any
 
 
-def count_calls(func: Callable[[Any], Any])-> Callable:
+def count_calls(method: Callable[[Any], Any])-> Callable:
     """decorator to count numer of times a func is called"""
-    @wraps(func)
+    @wraps(method)
     def wrapper(self, key):
         wrapper.count += 1
-        self._redis.mset({func.__qualname__: wrapper.count})
-        return func(self, key)
+        self._redis.mset({method.__qualname__: wrapper.count})
+        return method(self, key)
     wrapper.count = 0
     return wrapper
 
