@@ -6,9 +6,20 @@ Learn how to use redis as a simple cache
 
 import redis
 import uuid
+from functools import wraps
 # import json
 from typing import Union, Callable, Any
 
+
+def count_calls(func: Callable[[Any], Any])-> Callable:
+    """decorator to count numer of times a func is called"""
+    @wraps(func)
+    def wrapper(self, key):
+        wrapper.count += 1
+        self._redis.mset({func.__qualname__: wrapper.count})
+        return func(self, key)
+    wrapper.count = 0
+    return wrapper
 
 class Cache:
     """
@@ -21,6 +32,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float])-> str:
         """stores a data to redis and returns the key"""
         key = str(uuid.uuid4())
@@ -45,7 +57,7 @@ class Cache:
         return str(data)
 
     def get_int(self, key: str)-> int:
-        """returns int value"""
+        """returnis int value"""
         data = self._redis.get(key)
         if data is None:
             return None
