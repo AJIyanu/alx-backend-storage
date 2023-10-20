@@ -15,10 +15,20 @@ def count_calls(method: Callable[[Any], Any])-> Callable:
     """decorator to count numer of times a func is called"""
     @wraps(method)
     def wrapper(self, key):
-        wrapper.count += 1
-        self._redis.mset({method.__qualname__: wrapper.count})
+        """returns a modified function"""
+        if not self._redis.get(method.__qualname__):
+            self._redis.set(method.__qualname__, 1)
+        else:
+            self._redis.incr(method.__qualname__)
         return method(self, key)
-    wrapper.count = 0
+    return wrapper
+
+def call_history(method:Callable[[Any], Any])-> Any:
+    """stores input and output history of method calls"""
+    @wraps(method)
+    def wrapper(self, key):
+        """wrapper funtion to store"""
+        return method(self, key)
     return wrapper
 
 class Cache:
