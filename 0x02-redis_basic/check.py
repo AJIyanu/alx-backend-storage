@@ -5,14 +5,6 @@ Cache = __import__('exercise').Cache
 
 cache = Cache()
 
-cache.store(b"first")
-print(cache.store.__qualname__)
-print(cache.get(cache.store.__qualname__))
-
-cache.store(b"second")
-cache.store(b"third")
-print(cache.get(cache.store.__qualname__))
-
 s1 = cache.store("first")
 print(s1)
 s2 = cache.store("secont")
