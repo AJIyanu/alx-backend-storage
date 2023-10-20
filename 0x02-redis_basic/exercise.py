@@ -11,7 +11,7 @@ from functools import wraps
 from typing import Union, Callable, Any
 
 
-def count_calls(method: Callable[[Any], Any])-> Callable[[Any], Any]:
+def count_calls(method: Callable)-> Callable:
     """decorator to count numer of times a func is called"""
     @wraps(method)
     def wrapper(self, key):
@@ -23,7 +23,7 @@ def count_calls(method: Callable[[Any], Any])-> Callable[[Any], Any]:
         return method(self, key)
     return wrapper
 
-def call_history(method:Callable[[Any], Any])-> Any:
+def call_history(method:Callable)-> Callable:
     """stores input and output history of method calls"""
     @wraps(method)
     def wrapper(self, data):
