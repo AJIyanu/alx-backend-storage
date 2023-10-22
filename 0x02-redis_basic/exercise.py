@@ -11,7 +11,7 @@ from functools import wraps
 from typing import Union, Callable, Any
 
 
-def count_calls(method: Callable)-> Callable:
+def count_calls(method: Callable) -> Callable:
     """decorator to count numer of times a func is called"""
     @wraps(method)
     def wrapper(self, key):
@@ -23,16 +23,18 @@ def count_calls(method: Callable)-> Callable:
         return method(self, key)
     return wrapper
 
-def call_history(method:Callable)-> Callable:
+
+def call_history(method: Callable) -> Callable:
     """stores input and output history of method calls"""
     @wraps(method)
-    def wrapper(self, data):
+    def wrapper(self, *args):
         """wrapper funtion to store"""
-        self._redis.rpush(f"{method.__qualname__}:inputs", str(data))
-        output = method(self, data)
+        self._redis.rpush(f"{method.__qualname__}:inputs", str(args))
+        output = method(self, str(args))
         self._redis.rpush(f"{method.__qualname__}:outputs", output)
         return output
     return wrapper
+
 
 class Cache:
     """
@@ -40,21 +42,21 @@ class Cache:
     simple cache with redis
     """
 
-    def __init__(self)-> None:
+    def __init__(self) -> None:
         """creates an instance of reddis with empty data"""
         self._redis = redis.Redis()
         self._redis.flushdb()
 
     @call_history
     @count_calls
-    def store(self, data: Union[str, bytes, int, float])-> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """stores a data to redis and returns the key"""
         key = str(uuid.uuid4())
         new_insert = {key: data}
         self._redis.mset(new_insert)
         return key
 
-    def get(self, key: str, fn: Callable[[Any], Any]=None)-> Any:
+    def get(self, key: str, fn: Callable[[Any], Any] = None) -> Any:
         """gets data stored by key and returns the data"""
         data = self._redis.get(key)
         if data is None:
@@ -63,16 +65,31 @@ class Cache:
             return data
         return fn(data)
 
-    def get_str(self, key: str)-> str:
+    def get_str(self, key: str) -> str:
         """returns a stringed get"""
         data = self._redis.get(key)
         if data is None:
             return None
         return str(data)
 
-    def get_int(self, key: str)-> int:
+    def get_int(self, key: str) -> int:
         """returnis int value"""
         data = self._redis.get(key)
         if data is None:
             return None
         return int(data)
+
+
+def replay(obj):
+    """return replay of cache called history"""
+    c = redis.Redis()
+    '''name = getattr(obj, "__qualname__")'''
+    inputs = c.lrange("{}:inputs".format(obj), 0, -1)
+    print(inputs, type(inputs))
+    outputs = c.lrange("{}:outputs".format(obj), 0, -1)
+    inout = zip(inputs, outputs)
+    summary = f"Cache.store was called {len(inputs)} times:"
+    for ins, outs in inout:
+        outta = outs.decode('utf-8')
+        summary += f"\nCache.store(*{ins.decode('utf-8')}) -> {outta}"
+    return summary
