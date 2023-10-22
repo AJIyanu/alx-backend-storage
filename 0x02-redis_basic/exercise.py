@@ -91,4 +91,4 @@ def replay(obj):
     for ins, outs in inout:
         outta = outs.decode('utf-8')
         summary += f"\nCache.store(*{ins.decode('utf-8')}) -> {outta}"
-    return summary
+    print(summary)
