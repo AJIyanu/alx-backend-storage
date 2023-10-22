@@ -85,7 +85,6 @@ def replay(obj):
     c = redis.Redis()
     '''name = getattr(obj, "__qualname__")'''
     inputs = c.lrange("{}:inputs".format(obj), 0, -1)
-    print(inputs, type(inputs))
     outputs = c.lrange("{}:outputs".format(obj), 0, -1)
     inout = zip(inputs, outputs)
     summary = f"Cache.store was called {len(inputs)} times:"
