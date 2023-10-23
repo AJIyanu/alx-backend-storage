@@ -6,7 +6,7 @@ and cache the result with an expiration time of 10 seconds
 
 
 import requests
-import result
+import functools
 from redis import Redis
 from typing import Callable
 
