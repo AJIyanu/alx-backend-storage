@@ -80,15 +80,13 @@ class Cache:
         return int(data)
 
 
-def replay(obj):
+def replay(obj: Callable) -> None:
     """return replay of cache called history"""
     c = redis.Redis()
-    '''name = getattr(obj, "__qualname__")'''
-    inputs = c.lrange("{}:inputs".format(obj), 0, -1)
-    outputs = c.lrange("{}:outputs".format(obj), 0, -1)
+    inputs = c.lrange("{}:inputs".format(obj.__qualname__), 0, -1)
+    outputs = c.lrange("{}:outputs".format(obj.__qualname__), 0, -1)
     inout = zip(inputs, outputs)
-    summary = f"Cache.store was called {len(inputs)} times:"
+    print("{} was called {} times:".format(obj.__qualname__, len(inputs)))
     for ins, outs in inout:
         outta = outs.decode('utf-8')
-        summary += f"\nCache.store(*{ins.decode('utf-8')}) -> {outta}"
-    print(summary)
+        print(f"Cache.store(*{ins.decode('utf-8')}) -> {outta}")
