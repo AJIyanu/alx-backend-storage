@@ -7,11 +7,11 @@ and cache the result with an expiration time of 10 seconds
 
 import requests
 import functools
-from redis import Redis
+import redis
 from typing import Callable
 
 
-storage = Redis()
+storage = redis.Redis()
 
 
 def countcache(func: Callable) -> Callable:
