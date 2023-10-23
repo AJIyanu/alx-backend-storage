@@ -27,7 +27,7 @@ def countcache(func: Callable) -> Callable:
         if result:
             return result.decode("utf-8")
         else:
-            storage.setex(f"result:{url}", 10, func(arg))
+            storage.setex(f"result:{arg}", 10, func(arg))
         return storage.get(f"result:{arg}").decode("utf-8")
     return wrapper
 
